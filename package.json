@@ -1,9 +1,9 @@
 {
-  "name": "@darblast/template",
-  "version": "0.1.0",
+  "name": "@darblast/heap",
+  "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "dist/template.js",
+  "main": "dist/heap.js",
   "files": [
     "dist/"
   ],
@@ -11,19 +11,20 @@
     "eslint": "npx eslint .",
     "prettier": "npx prettier .",
     "build": "tsc -p tsconfig.json",
+    "mocha": "npx mocha",
     "test": "tsc -p tsconfig.json && npx mocha",
     "typedoc": "npx typedoc src/*"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/darblast/template.git"
+    "url": "git+https://github.com/darblast/heap.git"
   },
   "author": "James Farrell <farrelljames558@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/darblast/template/issues"
+    "url": "https://github.com/darblast/heap/issues"
   },
-  "homepage": "https://github.com/darblast/template#readme",
+  "homepage": "https://github.com/darblast/heap#readme",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
