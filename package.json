@@ -1,6 +1,6 @@
 {
   "name": "@darblast/heap",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "",
   "type": "module",
   "main": "dist/heap.js",
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/darblast/heap#readme",
   "devDependencies": {
+    "@darblast/utils": "^1.1.0",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "chai": "^4.3.7",

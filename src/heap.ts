@@ -94,14 +94,20 @@ export function siftUpMax<Element>(data: Element[], index: number): number {
  * Complexity: `O(1)`.
  *
  * @param data The array representation of a binary heap.
+ * @param count The number of elements in the affected range, which may be lower than `data.length`.
  * @param index The index of the element to move.
  * @param cmp The comparison function of the heap.
  * @returns The new index of the element, or -1 if the element cannot be moved.
  */
-function moveDownCmp<Element>(data: Element[], index: number, cmp: CompareFn<Element>): number {
+function moveDownCmp<Element>(
+  data: Element[],
+  count: number,
+  index: number,
+  cmp: CompareFn<Element>
+): number {
   const left = index * 2 + 1;
   const right = index * 2 + 2;
-  if (right < data.length) {
+  if (right < count) {
     if (cmp(data[right], data[left])) {
       if (cmp(data[right], data[index])) {
         swap(data, index, right);
@@ -115,7 +121,7 @@ function moveDownCmp<Element>(data: Element[], index: number, cmp: CompareFn<Ele
     } else {
       return -1;
     }
-  } else if (left < data.length && cmp(data[left], data[index])) {
+  } else if (left < count && cmp(data[left], data[index])) {
     swap(data, index, left);
     return left;
   } else {
@@ -131,13 +137,14 @@ function moveDownCmp<Element>(data: Element[], index: number, cmp: CompareFn<Ele
  * Complexity: `O(1)`.
  *
  * @param data The array representation of a binary heap.
+ * @param count The number of elements in the affected range, which may be lower than `data.length`.
  * @param index The index of the element to move.
  * @returns The new index of the element, or -1 if the element cannot be moved.
  */
-function moveDownMin<Element>(data: Element[], index: number): number {
+function moveDownMin<Element>(data: Element[], count: number, index: number): number {
   const left = index * 2 + 1;
   const right = index * 2 + 2;
-  if (right < data.length) {
+  if (right < count) {
     if (data[right] < data[left]) {
       if (data[right] < data[index]) {
         swap(data, index, right);
@@ -151,7 +158,7 @@ function moveDownMin<Element>(data: Element[], index: number): number {
     } else {
       return -1;
     }
-  } else if (left < data.length && data[left] < data[index]) {
+  } else if (left < count && data[left] < data[index]) {
     swap(data, index, left);
     return left;
   } else {
@@ -167,13 +174,14 @@ function moveDownMin<Element>(data: Element[], index: number): number {
  * Complexity: `O(1)`.
  *
  * @param data The array representation of a binary heap.
+ * @param count The number of elements in the affected range, which may be lower than `data.length`.
  * @param index The index of the element to move.
  * @returns The new index of the element, or -1 if the element cannot be moved.
  */
-function moveDownMax<Element>(data: Element[], index: number): number {
+function moveDownMax<Element>(data: Element[], count: number, index: number): number {
   const left = index * 2 + 1;
   const right = index * 2 + 2;
-  if (right < data.length) {
+  if (right < count) {
     if (data[right] > data[left]) {
       if (data[right] > data[index]) {
         swap(data, index, right);
@@ -187,7 +195,7 @@ function moveDownMax<Element>(data: Element[], index: number): number {
     } else {
       return -1;
     }
-  } else if (left < data.length && data[left] > data[index]) {
+  } else if (left < count && data[left] > data[index]) {
     swap(data, index, left);
     return left;
   } else {
@@ -198,20 +206,22 @@ function moveDownMax<Element>(data: Element[], index: number): number {
 /**
  * Moves an element down through the heap until the heap property is restored.
  *
- * Complexity: `O(log(N))`, with `N = data.length`.
+ * Complexity: `O(log(N))`, with `N = count`.
  *
  * @param data The array representation of a binary heap.
+ * @param count The number of elements in the affected range, which may be lower than `data.length`.
  * @param index The index of the element to move.
  * @param cmp The comparison function of the heap.
  * @returns The new index of the element.
  */
 export function siftDownCmp<Element>(
   data: Element[],
+  count: number,
   index: number,
   cmp: CompareFn<Element>
 ): number {
   let newIndex;
-  while (((newIndex = moveDownCmp(data, index, cmp)), newIndex >= 0)) {
+  while (((newIndex = moveDownCmp(data, count, index, cmp)), newIndex >= 0)) {
     index = newIndex;
   }
   return index;
@@ -222,15 +232,16 @@ export function siftDownCmp<Element>(
  *
  * Uses the < operator for comparisons, producing a min-heap.
  *
- * Complexity: `O(log(N))`, with `N = data.length`.
+ * Complexity: `O(log(N))`, with `N = count`.
  *
  * @param data The array representation of a binary heap.
+ * @param count The number of elements in the affected range, which may be lower than `data.length`.
  * @param index The index of the element to move.
  * @returns The new index of the element.
  */
-export function siftDownMin<Element>(data: Element[], index: number): number {
+export function siftDownMin<Element>(data: Element[], count: number, index: number): number {
   let newIndex;
-  while (((newIndex = moveDownMin(data, index)), newIndex >= 0)) {
+  while (((newIndex = moveDownMin(data, count, index)), newIndex >= 0)) {
     index = newIndex;
   }
   return index;
@@ -241,15 +252,16 @@ export function siftDownMin<Element>(data: Element[], index: number): number {
  *
  * Uses the > operator for comparisons, producing a max-heap.
  *
- * Complexity: `O(log(N))`, with `N = data.length`.
+ * Complexity: `O(log(N))`, with `N = count`.
  *
  * @param data The array representation of a binary heap.
+ * @param count The number of elements in the affected range, which may be lower than `data.length`.
  * @param index The index of the element to move.
  * @returns The new index of the element.
  */
-export function siftDownMax<Element>(data: Element[], index: number): number {
+export function siftDownMax<Element>(data: Element[], count: number, index: number): number {
   let newIndex;
-  while (((newIndex = moveDownMax(data, index)), newIndex >= 0)) {
+  while (((newIndex = moveDownMax(data, count, index)), newIndex >= 0)) {
     index = newIndex;
   }
   return index;
@@ -326,7 +338,7 @@ export function popCmp<Element>(data: Element[], cmp: CompareFn<Element>): Eleme
     const element = data[0];
     data[0] = data[data.length - 1];
     data.pop();
-    siftDownCmp(data, 0, cmp);
+    siftDownCmp(data, data.length, 0, cmp);
     return element;
   } else if (data.length > 0) {
     return data.pop()!;
@@ -355,7 +367,7 @@ export function popMin<Element>(data: Element[]): Element {
     const element = data[0];
     data[0] = data[data.length - 1];
     data.pop();
-    siftDownMin(data, 0);
+    siftDownMin(data, data.length, 0);
     return element;
   } else if (data.length > 0) {
     return data.pop()!;
@@ -384,7 +396,7 @@ export function popMax<Element>(data: Element[]): Element {
     const element = data[0];
     data[0] = data[data.length - 1];
     data.pop();
-    siftDownMax(data, 0);
+    siftDownMax(data, data.length, 0);
     return element;
   } else if (data.length > 0) {
     return data.pop()!;
@@ -396,14 +408,19 @@ export function popMax<Element>(data: Element[]): Element {
 /**
  * Checks the heap property on the provided array.
  *
- * Complexity: `O(N)`, with `N = data.length`.
+ * Complexity: `O(N)`, with `N = count`.
  *
  * @param data The array representation of a binary heap.
+ * @param count The number of elements in the relevant range, which may be lower than `data.length`.
  * @param cmp The comparison function of the heap.
  * @returns `true` if the heap property holds, `false` otherwise.
  */
-export function isHeapCmp<Element>(data: Element[], cmp: CompareFn<Element>): boolean {
-  for (let i = 1; i < data.length; i++) {
+export function isHeapCmp<Element>(
+  data: Element[],
+  count: number,
+  cmp: CompareFn<Element>
+): boolean {
+  for (let i = 1; i < count; i++) {
     const parent = (i - 1) >>> 1;
     if (cmp(data[i], data[parent])) {
       return false;
@@ -417,14 +434,15 @@ export function isHeapCmp<Element>(data: Element[], cmp: CompareFn<Element>): bo
  *
  * This variant uses the < operator, so if checks if the provided array is a min-heap.
  *
- * Complexity: `O(N)`, with `N = data.length`.
+ * Complexity: `O(N)`, with `N = count`.
  *
  * @param data The array representation of a binary heap.
+ * @param count The number of elements in the relevant range, which may be lower than `data.length`.
  * @param cmp The comparison function of the heap.
  * @returns `true` if the heap property holds, `false` otherwise.
  */
-export function isHeapMin<Element>(data: Element[]): boolean {
-  for (let i = 1; i < data.length; i++) {
+export function isHeapMin<Element>(data: Element[], count: number): boolean {
+  for (let i = 1; i < count; i++) {
     const parent = (i - 1) >>> 1;
     if (data[i] < data[parent]) {
       return false;
@@ -438,14 +456,15 @@ export function isHeapMin<Element>(data: Element[]): boolean {
  *
  * This variant uses the > operator, so if checks if the provided array is a max-heap.
  *
- * Complexity: `O(N)`, with `N = data.length`.
+ * Complexity: `O(N)`, with `N = count`.
  *
  * @param data The array representation of a binary heap.
+ * @param count The number of elements in the relevant range, which may be lower than `data.length`.
  * @param cmp The comparison function of the heap.
  * @returns `true` if the heap property holds, `false` otherwise.
  */
-export function isHeapMax<Element>(data: Element[]): boolean {
-  for (let i = 1; i < data.length; i++) {
+export function isHeapMax<Element>(data: Element[], count: number): boolean {
+  for (let i = 1; i < count; i++) {
     const parent = (i - 1) >>> 1;
     if (data[i] > data[parent]) {
       return false;
@@ -459,15 +478,16 @@ export function isHeapMax<Element>(data: Element[]): boolean {
  *
  * The array is modified in place.
  *
- * Complexity: `O(N)`, with `N = data.length`.
+ * Complexity: `O(N)`, with `N = count`.
  *
  * @param data The array to heapify.
+ * @param count The number of elements in the affected range, which may be lower than `data.length`.
  * @param cmp The comparison function of the heap.
  */
-export function heapifyCmp<Element>(data: Element[], cmp: CompareFn<Element>): void {
-  const max = data.length >>> 1;
-  for (let i = 0; i < max; i++) {
-    siftDownCmp(data, i, cmp);
+export function heapifyCmp<Element>(data: Element[], count: number, cmp: CompareFn<Element>): void {
+  const max = count >>> 1;
+  for (let i = max; i >= 0; i--) {
+    siftDownCmp(data, count, i, cmp);
   }
 }
 
@@ -478,14 +498,15 @@ export function heapifyCmp<Element>(data: Element[], cmp: CompareFn<Element>): v
  *
  * This variant uses the < operator, resulting in a min-heap.
  *
- * Complexity: `O(N)`, with `N = data.length`.
+ * Complexity: `O(N)`, with `N = count`.
  *
  * @param data The array to heapify.
+ * @param count The number of elements in the affected range, which may be lower than `data.length`.
  */
-export function heapifyMin<Element>(data: Element[]): void {
-  const max = data.length >>> 1;
-  for (let i = 0; i < max; i++) {
-    siftDownMin(data, i);
+export function heapifyMin<Element>(data: Element[], count: number): void {
+  const max = count >>> 1;
+  for (let i = max; i >= 0; i--) {
+    siftDownMin(data, count, i);
   }
 }
 
@@ -499,10 +520,67 @@ export function heapifyMin<Element>(data: Element[]): void {
  * Complexity: `O(N)`, with `N = data.length`.
  *
  * @param data The array to heapify.
+ * @param count The number of elements in the affected range, which may be lower than `data.length`.
  */
-export function heapifyMax<Element>(data: Element[]): void {
-  const max = data.length >>> 1;
-  for (let i = 0; i < max; i++) {
-    siftDownMax(data, i);
+export function heapifyMax<Element>(data: Element[], count: number): void {
+  const max = count >>> 1;
+  for (let i = max; i >= 0; i--) {
+    siftDownMax(data, count, i);
+  }
+}
+
+/**
+ * Sorts an array in-place using the heapsort algorithm.
+ *
+ * The algorithm is unstable, meaning that it may swap elements that compare equal.
+ *
+ * The array will be sorted in ascending order relative to the `cmp` function. For example, if `cmp`
+ * simply runs the < operator on the operands the array will be sorted in ascending order.
+ *
+ * @param data The array to sort.
+ * @param cmp The comparison function.
+ */
+export function sortCmp<Element>(data: Element[], cmp: CompareFn<Element>): void {
+  const invertedCmp = (lhs: Element, rhs: Element) => cmp(rhs, lhs);
+  heapifyCmp(data, data.length, invertedCmp);
+  for (let i = data.length - 1; i >= 0; i--) {
+    swap(data, 0, i);
+    siftDownCmp(data, i, 0, invertedCmp);
+  }
+}
+
+/**
+ * Sorts an array in-place using the heapsort algorithm.
+ *
+ * The algorithm is unstable, meaning that it may swap elements that compare equal.
+ *
+ * This variant uses the > operator for the comparisons, meaning that it will build a max-heap and
+ * sort the array in *ascending* order.
+ *
+ * @param data The array to sort.
+ */
+export function sortAsc<Element>(data: Element[]): void {
+  heapifyMax(data, data.length);
+  for (let i = data.length - 1; i >= 0; i--) {
+    swap(data, 0, i);
+    siftDownMax(data, i, 0);
+  }
+}
+
+/**
+ * Sorts an array in-place using the heapsort algorithm.
+ *
+ * The algorithm is unstable, meaning that it may swap elements that compare equal.
+ *
+ * This variant uses the < operator for the comparisons, meaning that it will build a min-heap and
+ * sort the array in *descending* order.
+ *
+ * @param data The array to sort.
+ */
+export function sortDesc<Element>(data: Element[]): void {
+  heapifyMin(data, data.length);
+  for (let i = data.length - 1; i >= 0; i--) {
+    swap(data, 0, i);
+    siftDownMin(data, i, 0);
   }
 }
