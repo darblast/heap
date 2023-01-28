@@ -1,5 +1,7 @@
 ## `@darblast/heap`
 
+[![](https://img.shields.io/npm/v/@darblast/heap)](https://www.npmjs.com/package/@darblast/heap)
+[![License: MIT](https://img.shields.io/github/license/darblast/heap)](https://github.com/darblast/heap/blob/master/LICENSE)
 [![Node.js CI](https://github.com/darblast/heap/actions/workflows/node.js.yml/badge.svg)](https://github.com/darblast/heap/actions/workflows/node.js.yml)
 
 Provides algorithms to manipulate binary heap arrays.
