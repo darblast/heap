@@ -26,10 +26,11 @@
   },
   "homepage": "https://github.com/darblast/heap#readme",
   "devDependencies": {
-    "@darblast/utils": "^1.1.0",
+    "@darblast/utils": "^1.2.0",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "chai": "^4.3.7",
+    "deep-equal-in-any-order": "^2.0.2",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-mocha": "^10.1.0",
