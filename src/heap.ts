@@ -16,7 +16,7 @@ function swap<Element>(data: Element[], i: number, j: number): void {
 /**
  * Moves an element up through the heap until the heap property is restored.
  *
- * Complexity: `O(log(N))`, with `N = data.length`.
+ * Complexity: `O(log(N))`, with `N = index`.
  *
  * @param data The array representation of a binary heap.
  * @param index The index of the element to move.
@@ -45,7 +45,7 @@ export function siftUpCmp<Element>(
  *
  * Uses the < operator for comparisons, producing a min-heap.
  *
- * Complexity: `O(log(N))`, with `N = data.length`.
+ * Complexity: `O(log(N))`, with `N = index`.
  *
  * @param data The array representation of a binary heap.
  * @param index The index of the element to move.
@@ -69,7 +69,7 @@ export function siftUpMin<Element>(data: Element[], index: number): number {
  *
  * Uses the > operator for comparisons, producing a max-heap.
  *
- * Complexity: `O(log(N))`, with `N = data.length`.
+ * Complexity: `O(log(N))`, with `N = index`.
  *
  * @param data The array representation of a binary heap.
  * @param index The index of the element to move.
