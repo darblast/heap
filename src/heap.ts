@@ -485,8 +485,7 @@ export function isHeapMax<Element>(data: Element[], count: number): boolean {
  * @param cmp The comparison function of the heap.
  */
 export function heapifyCmp<Element>(data: Element[], count: number, cmp: CompareFn<Element>): void {
-  const max = count >>> 1;
-  for (let i = max; i >= 0; i--) {
+  for (let i = count >>> 1; i >= 0; i--) {
     siftDownCmp(data, count, i, cmp);
   }
 }
@@ -504,8 +503,7 @@ export function heapifyCmp<Element>(data: Element[], count: number, cmp: Compare
  * @param count The number of elements in the affected range, which may be lower than `data.length`.
  */
 export function heapifyMin<Element>(data: Element[], count: number): void {
-  const max = count >>> 1;
-  for (let i = max; i >= 0; i--) {
+  for (let i = count >>> 1; i >= 0; i--) {
     siftDownMin(data, count, i);
   }
 }
@@ -523,8 +521,7 @@ export function heapifyMin<Element>(data: Element[], count: number): void {
  * @param count The number of elements in the affected range, which may be lower than `data.length`.
  */
 export function heapifyMax<Element>(data: Element[], count: number): void {
-  const max = count >>> 1;
-  for (let i = max; i >= 0; i--) {
+  for (let i = count >>> 1; i >= 0; i--) {
     siftDownMax(data, count, i);
   }
 }
@@ -582,5 +579,105 @@ export function sortDesc<Element>(data: Element[]): void {
   for (let i = data.length - 1; i >= 0; i--) {
     swap(data, 0, i);
     siftDownMin(data, i, 0);
+  }
+}
+
+/**
+ * Generic priority queue implementation based on a binary heap.
+ */
+export class PriorityQueue<Element> {
+  private readonly _data: Element[] = [];
+
+  /**
+   * Constructs a PriorityQueue.
+   *
+   * @param _compare The comparison function that establishes the total order relationship over the
+   *                 elements. It must be a pure function (i.e. it must not keep state and return
+   *                 consistent values).
+   */
+  public constructor(private readonly _compare: CompareFn<Element>) {}
+
+  /**
+   * Current length of the queue.
+   *
+   * Complexity: `O(1)`.
+   */
+  public get length(): number {
+    return this._data.length;
+  }
+
+  /**
+   * `true` iff the queue is empty.
+   *
+   * Complexity: `O(1)`.
+   */
+  public get empty(): boolean {
+    return !this._data.length;
+  }
+
+  /**
+   * Refers to the top of the queue. Undefined behavior if the queue is empty.
+   *
+   * Complexity: `O(1)`.
+   */
+  public get top(): Element {
+    return this._data[0];
+  }
+
+  /**
+   * Adds an element to the queue.
+   *
+   * Complexity: `O(M * log(N))`, with M = number of elements being pushed and N = number of
+   * elements in the queue.
+   */
+  public push(...elements: Element[]): void {
+    for (const element of elements) {
+      pushCmp(this._data, element, this._compare);
+    }
+  }
+
+  /**
+   * Removes the element at the top of the queue.
+   *
+   * Complexity: `O(log(N))`.
+   *
+   * @returns The removed element.
+   * @throws If the queue is empty.
+   */
+  public pop(): Element {
+    return popCmp(this._data, this._compare);
+  }
+
+  /**
+   * Iterates through the elements of the queue in an undefined order.
+   *
+   * Does not mutate the queue. Undefined behavior if new elements are pushed during an iteration.
+   */
+  public *[Symbol.iterator](): Iterator<Element> {
+    for (const element of this._data) {
+      yield element;
+    }
+  }
+
+  /**
+   * Returns an iterator that repeatedly pops the elements in the queue. As a result, the elements
+   * are returned in the order defined by the comparison function.
+   *
+   * You can use it with the spread operator to extract all elements. Example:
+   *
+   * ```js
+   * const queue = new PriorityQueue(cmp);
+   * const array = [...queue.spread()];
+   * ```
+   *
+   * WARNING: this method modifies the queue and eventually empties it.
+   *
+   * Complexity: `O(1)` for the initial call, `O(log(N))` for each yield, `O(N * log(N))` for the
+   * entire enumeration.
+   */
+  public *spread(): Iterator<Element> {
+    while (this._data.length > 0) {
+      yield popCmp(this._data, this._compare);
+    }
   }
 }
